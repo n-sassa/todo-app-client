@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { supabase } from "../utils/supabase"
 import { useEffect } from "react"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import useStore from "../store"
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
 	switch (metric.name) {
@@ -43,14 +44,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const validateSession = async () => {
 		const user = supabase.auth.user()
 		if (user && pathname === "/") {
-			push("/dashboard")
+			push("/top")
 		} else if (!user && pathname !== "/") {
 			await push("/")
 		}
 	}
 	supabase.auth.onAuthStateChange((event, _) => {
 		if (event === "SIGNED_IN" && pathname === "/") {
-			push("/dashboard")
+			push("/top")
 		}
 		if (event === "SIGNED_OUT") {
 			push("/")

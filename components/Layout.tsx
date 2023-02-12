@@ -1,6 +1,7 @@
 import Head from "next/head"
 import React from "react"
 import { BadgeCheckIcon } from "@heroicons/react/solid"
+import { Navbar } from "./Navbar"
 
 type Title = {
 	title: string
@@ -13,7 +14,7 @@ export const Layout: React.FC<Title> = ({ children, title = "Todo app" }) => {
 			<Head>
 				<title>{title}</title>
 			</Head>
-			<header></header>
+			<Navbar />
 			<main className='flex w-screen flex-1 flex-col items-center justify-center'>
 				{children}
 			</main>
