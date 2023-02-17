@@ -7,8 +7,8 @@ import { useMutateAuth } from "../hooks/useMutateAuth"
 const Auth: NextPage = () => {
 	const [isLogin, setIsLogin] = useState(true)
 	const {
-		email,
-		setEmail,
+		name,
+		setName,
 		password,
 		setPassword,
 		loginMutation,
@@ -31,10 +31,10 @@ const Auth: NextPage = () => {
 						type='text'
 						required
 						className='my-2 rounded border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:border-indigo-500 focus:outline-none'
-						placeholder='Email'
-						value={email}
+						placeholder='Name'
+						value={name}
 						onChange={(e) => {
-							setEmail(e.target.value)
+							setName(e.target.value)
 						}}
 					/>
 				</div>

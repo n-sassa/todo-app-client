@@ -1,43 +1,73 @@
 import { useMutation } from "@tanstack/react-query"
+import axios, { AxiosError } from "axios"
 import { useState } from "react"
-import { supabase } from "../utils/supabase"
+import useStore from "../store"
+import { ModalArgs } from "../types/types"
 
 export const useMutateAuth = () => {
-	const [email, setEmail] = useState("")
+	const [name, setName] = useState("")
 	const [password, setPassword] = useState("")
+	const { updateAuthenticated, showError } = useStore()
 
 	const reset = () => {
-		setEmail("")
+		setName("")
 		setPassword("")
 	}
 
 	const loginMutation = useMutation(
 		async () => {
-			const { error } = await supabase.auth.signIn({ email, password })
-			if (error) throw new Error(error.message)
+			const res = await axios.post(
+				"http://localhost:3000/login",
+				{
+					name,
+					password,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			)
+			updateAuthenticated(true)
 		},
 		{
 			onError: (err: any) => {
-				alert(err.message)
+				const modalArgs: ModalArgs = {
+					title: "エラー",
+					message: err?.response?.data || "不明なエラーです",
+					modalType: "error",
+				}
+				showError(modalArgs)
 				reset()
 			},
 		}
 	)
 	const registerMutation = useMutation(
 		async () => {
-			const { error } = await supabase.auth.signUp({ email, password })
-			if (error) throw new Error(error.message)
+			const res = await axios.post(
+				"http://localhost:3000/user",
+				{ name, password },
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			)
 		},
 		{
 			onError: (err: any) => {
-				alert(err.message)
+				const modalArgs: ModalArgs = {
+					title: "エラー",
+					message: err?.response?.data || "不明なエラーです",
+					modalType: "error",
+				}
 				reset()
 			},
 		}
 	)
 	return {
-		email,
-		setEmail,
+		name,
+		setName,
 		password,
 		setPassword,
 		loginMutation,

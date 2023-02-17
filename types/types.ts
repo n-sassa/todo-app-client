@@ -14,3 +14,6 @@ export type Notice = {
 
 export type EditedTask = Omit<Task, "created_at" | "user_id">
 export type EditedNotice = Omit<Notice, "created_at" | "user_id">
+
+export type ModalType = "info" | "success" | "warn" | "error"
+export type ModalArgs = { title: string; message: string, modalType: ModalType}

@@ -2,44 +2,44 @@ import { LogoutIcon } from "@heroicons/react/solid"
 import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 import React from "react"
-import { supabase } from "../utils/supabase"
+import useStore from "../store"
 import { DropDown } from "./DropDown"
 
 export const Navbar: React.FC = () => {
+	const { isAuthenticated, updateAuthenticated } = useStore()
 	const queryClient = useQueryClient()
 	const signOut = () => {
-		supabase.auth.signOut()
+		updateAuthenticated(false)
 		queryClient.removeQueries(["todos"])
 		queryClient.removeQueries(["notices"])
 	}
-	const user = supabase.auth.user()
 
 	const menuList = [
-		{href: "/top", title: "TOP"},
-		{href: "/isr", title: "ISR学習ページ"},
-		{href: "/ssr", title: "SSR学習ページ"},
-		{href: "/ssg", title: "SSG学習ページ"},
-		{href: "/csr", title: "CSR学習ページ"},
+		{ href: "/top", title: "TOP" },
+		{ href: "/isr", title: "ISR学習ページ" },
+		{ href: "/ssr", title: "SSR学習ページ" },
+		{ href: "/ssg", title: "SSG学習ページ" },
+		{ href: "/csr", title: "CSR学習ページ" },
 	]
 	return (
 		<div className='navbar bg-base-100'>
 			<div className='navbar-start'>
-				{user && 
-					<DropDown dropDownList={menuList}/>
-				}
+				{isAuthenticated && <DropDown dropDownList={menuList} />}
 			</div>
 			<div className='navbar-center'>
-				<Link href={user ? "/top" : "/"} className='btn-ghost btn text-xl normal-case'>Nextjs練習</Link>
+				<Link
+					href={isAuthenticated ? "/top" : "/"}
+					className='btn-ghost btn text-xl normal-case'
+				>
+					Nextjs練習
+				</Link>
 			</div>
 			<div className='navbar-end'>
-				{user && 
-					<button className="btn btn-ghost btn-circle">
-						<LogoutIcon
-							className='h-5 w-5'
-							onClick={signOut}
-						/>
+				{isAuthenticated && (
+					<button className='btn-ghost btn-circle btn'>
+						<LogoutIcon className='h-5 w-5' onClick={signOut} />
 					</button>
-				}
+				)}
 			</div>
 		</div>
 	)

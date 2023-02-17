@@ -41,26 +41,18 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const { push, pathname } = useRouter()
+	const { isAuthenticated } = useStore()
 	const validateSession = async () => {
-		const user = supabase.auth.user()
-		if (user && pathname === "/") {
+		if (isAuthenticated && pathname === "/") {
 			push("/top")
-		} else if (!user && pathname !== "/") {
+		} else if (!isAuthenticated && pathname !== "/") {
 			await push("/")
 		}
 	}
-	supabase.auth.onAuthStateChange((event, _) => {
-		if (event === "SIGNED_IN" && pathname === "/") {
-			push("/top")
-		}
-		if (event === "SIGNED_OUT") {
-			push("/")
-		}
-	})
 	useEffect(() => {
 		validateSession()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [isAuthenticated])
 
 	return (
 		<QueryClientProvider client={queryClient}>
