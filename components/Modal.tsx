@@ -16,10 +16,7 @@ const Modal: React.FC = () => {
 		modalArgs: modalMessage,
 		modalType,
 	} = useStore()
-	const [dummyChecked, _] = useState(false)
-	const [fontColor, setFontColor] = useState(fontColorForModal.info)
 	const selectColor = (type: ModalType) => {
-		console.log("start")
 		return fontColorForModal[type]
 	}
 	const onClick = () => {
@@ -31,7 +28,8 @@ const Modal: React.FC = () => {
 				type='checkbox'
 				id='my-modal'
 				className='modal-toggle'
-				checked={isOpenModal || dummyChecked}
+				checked={isOpenModal}
+				onChange={() => {}}
 			/>
 			<div className='modal'>
 				<div className='modal-box'>

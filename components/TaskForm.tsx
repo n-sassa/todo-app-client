@@ -9,15 +9,16 @@ export const TaskForm: React.FC = () => {
 	const { createTaskMutation, updateTaskMutation } = useMutateTask()
 	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		if (editedTask.id === "") {
+		if (editedTask.id == undefined) {
 			createTaskMutation.mutate({
 				title: editedTask.title,
-				user_id: supabase.auth.user()?.id,
+				user_id: 1,
 			})
 		} else {
 			updateTaskMutation.mutate({
 				id: editedTask.id,
 				title: editedTask.title,
+				user_id: editedTask.user_id,
 			})
 		}
 	}

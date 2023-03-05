@@ -1,13 +1,10 @@
 import create from "zustand"
-import { ModalArgs, EditedNotice, EditedTask, ModalType } from "./types/types"
+import { ModalArgs, EditedTask, ModalType } from "./types/types"
 
 type State = {
 	editedTask: EditedTask
-	editedNotice: EditedNotice
 	updateEditedTask: (payload: EditedTask) => void
-	updateEditedNotice: (payload: EditedNotice) => void
 	resetEditedTask: () => void
-	resetEditedNotice: () => void
 	isAuthenticated: boolean
 	updateAuthenticated: (payload: boolean) => void
 	isOpenModal: boolean
@@ -19,24 +16,18 @@ type State = {
 	showError: (payload: ModalArgs) => void
 }
 const useStore = create<State>((set) => ({
-	editedTask: { id: "", title: "" },
+	editedTask: { id: null, title: "", user_id: null },
 	editedNotice: { id: "", content: "" },
 	updateEditedTask: (payload) =>
 		set({
 			editedTask: {
 				id: payload.id,
 				title: payload.title,
+				user_id: payload.user_id,
 			},
 		}),
-	resetEditedTask: () => set({ editedTask: { id: "", title: "" } }),
-	updateEditedNotice: (payload) =>
-		set({
-			editedNotice: {
-				id: payload.id,
-				content: payload.content,
-			},
-		}),
-	resetEditedNotice: () => set({ editedNotice: { id: "", content: "" } }),
+	resetEditedTask: () =>
+		set({ editedTask: { id: null, title: "", user_id: null } }),
 	isAuthenticated: false,
 	updateAuthenticated: (payload) => set({ isAuthenticated: payload }),
 	isOpenModal: false,

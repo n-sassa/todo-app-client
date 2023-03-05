@@ -4,9 +4,10 @@ import { useMutateTask } from "../hooks/useMutateTask"
 import useStore from "../store"
 import { Task } from "../types/types"
 
-export const TaskItem: React.FC<Omit<Task, "created_at" | "user_id">> = ({
+export const TaskItem: React.FC<Omit<Task, "created_at">> = ({
 	id,
 	title,
+	user_id,
 }) => {
 	const update = useStore((state) => state.updateEditedTask)
 	const { deleteTaskMutation } = useMutateTask()
@@ -20,6 +21,7 @@ export const TaskItem: React.FC<Omit<Task, "created_at" | "user_id">> = ({
 						update({
 							id: id,
 							title: title,
+							user_id: user_id,
 						})
 					}}
 				/>

@@ -5,8 +5,9 @@ import useStore from "../store"
 import { ModalArgs } from "../types/types"
 
 export const useMutateAuth = () => {
-	const [name, setName] = useState("")
-	const [password, setPassword] = useState("")
+	// テストユーザをデフォルトとする
+	const [name, setName] = useState("test_user_1")
+	const [password, setPassword] = useState("password")
 	const { updateAuthenticated, showError } = useStore()
 
 	const reset = () => {
